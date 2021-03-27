@@ -1,10 +1,10 @@
 
 -- +migrate Up
-CREATE TABLE user (
+CREATE TABLE account (
     id          serial,
     name        varchar(256),
     is_admin    bool 
 );
 
 -- +migrate Down
-DROP TABLE user;
+DROP TABLE account;
