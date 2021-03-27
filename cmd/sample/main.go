@@ -35,7 +35,7 @@ func main() {
 }
 
 func NewDB() (*sql.DB, error) {
-	db, err := sql.Open("postgres", "host=localhost user=sue dbname=postgres sslmode=disable")
+	db, err := sql.Open("postgres", "host=localhost user=sue dbname=postgres password=postgres sslmode=disable")
 
 	if err != nil {
 		return nil, err

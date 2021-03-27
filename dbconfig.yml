@@ -1,4 +1,4 @@
 development:
     dialect: postgres
     dir: migrations
-    datasource: host=localhost user=postgres dbname=postgres sslmode=disable
+    datasource: host=localhost user=postgres dbname=postgres password=postgres sslmode=disable
