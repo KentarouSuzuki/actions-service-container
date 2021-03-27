@@ -77,9 +77,8 @@ func AllAccount(db *sql.DB)([]Account, error) {
 }
 
 func DeleteAllAccount(db *sql.DB) {
-	err := db.QueryRow("DELETE FROM account")
+	_, err := db.Exec("DELETE FROM account")
 	if err != nil {
-		fmt.Println(err)
 		panic(err)
 	}
 }
