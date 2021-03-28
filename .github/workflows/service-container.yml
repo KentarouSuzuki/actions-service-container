@@ -2,8 +2,10 @@ name: Service container sample
 on: push
 
 jobs:
-  build:
+  runner-job:
     runs-on: ubuntu-latest
+    env:
+      ENV: runner-job
     services:
       postgres:
         image: postgres
@@ -31,10 +33,46 @@ jobs:
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
           go get github.com/rubenv/sql-migrate/...
-          sql-migrate up -config=configs/dbconfig.yml
+          sql-migrate up -config=configs/dbconfig.yml -env=${ENV}
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
       
       - name: Run
         run: go run cmd/sample/main.go
+
+  container-job:
+    runs-on: ubuntu-latest
+    container:
+      image: golang:1.14
+    env:
+      ENV: container-job
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: sue
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Migrate DB schema
+        shell: bash
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          go get github.com/rubenv/sql-migrate/...
+          sql-migrate up -config=configs/dbconfig.yml -env=${ENV}
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+      
+      - name: Run
+        run: go run cmd/sample/main.go
+

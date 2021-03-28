@@ -1,5 +1,11 @@
-development:
+runner-job:
     dialect: postgres
     datasource: host=localhost dbname=postgres user=sue password=postgres sslmode=disable
+    dir: migrations
+    table: migrations
+
+container-job:
+    dialect: postgres
+    datasource: host=postgres dbname=postgres user=sue password=postgres sslmode=disable
     dir: migrations
     table: migrations
