@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/KentarouSuzuki/actions-service-container/pkg"
 	_ "github.com/lib/pq"
 )
 
@@ -35,7 +36,12 @@ func main() {
 }
 
 func NewDB() (*sql.DB, error) {
-	db, err := sql.Open("postgres", "host=localhost user=sue dbname=postgres password=postgres sslmode=disable")
+	conf, err := config.NewConfig()
+	if err != nil {
+		panic(fmt.Errorf("Invalid Environment"))
+	}
+
+	db, err := sql.Open(conf.Dialect, conf.Datasource)
 
 	if err != nil {
 		return nil, err

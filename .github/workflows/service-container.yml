@@ -33,7 +33,7 @@ jobs:
         run: |
           export PATH=$PATH:$GOPATH/bin
           go get github.com/rubenv/sql-migrate/...
-          sql-migrate up
+          sql-migrate up -config=configs/dbconfig.yml
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
